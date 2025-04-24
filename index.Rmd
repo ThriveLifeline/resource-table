@@ -1,11 +1,122 @@
 ---
-title: "Welcome to THRIVE"
+title: "Crisis Resources"
 ---
 
-In order to show the resources page, we needed an index page. 
-If you made it this far, head to the [resources page](resources.html).
+- **Keywords**: AAPI, abuse, academia, aid, app, Black, career, coping, COVID-19, 
+detransition, disability, disaster, disordered eating, education, end-of-life, 
+food, funding, gender identity, general, gestation, grief, harm reduction, 
+health, HIV, housing, hotline, Indigenous, Latinx, legal, LGBTQ, mental health,
+mentoring, MPX, neurodivergence, non-carceral, online safety, parent, pet, psychosis, providers, 
+protest, relationships, religion, STEMM, substance use, support, under 18,
+veteran
+- **Region/Languages**: UK, Canada, international, Espa&ntilde;ol
 
-GitHub will render whatever was put into the `docs` folder which RStudio
-generated when we built the site.
-By default, GitHub Pages will render whatever is in the top-level directory, 
-but you can set it up to use `docs` instead.
+<center>
+[Click here for a list of non-carceral support options](https://drive.google.com/file/d/1C3RJpE2o2W5cKM78pdCigVXQEMGMC1hz/view?usp=drive_link)
+</center>
+
+```{r, include=FALSE}
+library(tidyverse)
+library(DT)
+
+print("HI!")
+```
+
+```{r, echo=FALSE, message=FALSE}
+## Load resource list
+## Note: If you encounter issues with characters, try resaving the
+## CSV as a UTF-8 CSV. Excel... does not like interpreting as UTF-8
+## Find the bad UTF-8 lines
+# library("xfun")
+# read_utf8("thrive_resources.csv")
+data <- read_csv("resources.csv", comment = "#")
+
+## Make website a hyperlink
+data$Website <- paste0("<a href='",data$Website,"' target='_blank'>",data$Website,"</a>")
+data <- select(data, -c(ShortLink))
+
+
+### Make URLs a hyperlink
+#data$ShortLink <- paste0("<a href='https://",data$ShortLink,"' target='_blank'>","https://",data$ShortLink,"</a>")
+
+### Remove ShortLink column, because they're broken
+#data <- select(data, -c(ShortLink))
+
+### Remove website column, since it's just an explanation for the ShortLink
+#data <- select(data, -c(Website))
+
+## Remove first resource column, since website includes the same name
+#data <- select(data, -c(Resource))
+
+## Change to factor-based data for "tagged" search
+# data$Category <-as.factor(data$Category)
+# data$Type <-as.factor(data$Type)
+
+## Need to keep 1st column when doing buttons so the CSV renders properly
+datatable(data,
+    rownames=FALSE,
+    escape = FALSE,
+    extensions = c('Responsive', 'Buttons', 'SearchBuilder'), 
+    options = list(
+    dom = 'QBfrtip',
+##    buttons = c('copy', 'csv', 'excel', 'pdf', 'print')),
+    buttons = list(
+      'copy', 'csv', 'excel',
+      list(extend = 'pdf', 
+           orientation = 'landscape',
+           exportoptions=list(pageSize='A3',
+           customize = JS("function(doc){doc.styles.tableHeader.color='purple';}")
+                )),
+      'print')
+))
+
+## Need DT v 0.17
+## https://datatables.net/extensions/searchbuilder/examples/initialisation/columns.html
+#
+#    searchBuilder = (
+#            columns = list(1,2,3)
+#        )
+#    searchCols = list(
+#      NULL,
+#      NULL,
+#      NULL,
+#      list(search = '["disability"]'),
+#      NULL
+#      ))
+##
+#  )
+
+### ORIGINAL
+#datatable(data,
+#    options = list(),
+#    rownames=FALSE,
+##    filter = "top",
+#    escape = FALSE,
+#    )
+
+## The download butons don't save the HTML...
+#datatable(data,
+#    rownames=FALSE,
+##    filter = "top",
+#    escape = FALSE,
+#    extensions = 'Buttons',
+#            options = list(dom = 'Blfrtip',
+#                buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+#                lengthMenu = list(c(10,25,50,-1),
+#                c(10,25,50,"All")))
+#    )
+
+```
+
+Do you have a resource that you'd like to see added? Fill out our
+<a href="https://forms.gle/VpkzjtbuAes3beAr7">suggestion form</a>.
+
+## Disclaimer
+This website offers resources and information, and is designed for educational
+purposes only.
+The T.H.R.I.V.E. website may contain links to external websites that are not
+provided or maintained by or in any way affiliated with T.H.R.I.V.E.
+Please note we don't guarantee the accuracy, relevance, timeliness, or
+completeness of any information on these websites.
+You should not rely on this information as a substitute for, nor does it
+replace, professional medical advice, diagnosis or treatment.

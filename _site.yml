@@ -2,13 +2,13 @@ name: "Website Name"
 output_dir: "docs"
 #navbar: _navbar.html
 navbar:
-  title: "THRIVE Table Test"
-  left:
-    - text: "Resources"
-      href: resources.html
-  right: 
-    - icon: fa-github fa-lg
-      href: http://github.com/ThriveLifeline/
+  title: "THRIVE Crisis Resources"
+#  left:
+#    - text: "Resources"
+#      href: resources.html
+#  right: 
+#    - icon: fa-github fa-lg
+#      href: http://github.com/ThriveLifeline/
 output:
   html_document:
     theme: cosmo
